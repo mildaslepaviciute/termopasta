@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kompiuterių remontas Vilniuje - Nemokama diagnostika - Termopasta</title>
+<meta name="description" content="Kokybiškai ir greitai suremontuosime Jūsų kompiuterį. Turime virš 10 metų patirties. Nemokamai nustatome gedimą, darbams taikome 3 mėnesių garantiją.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VARIANTAS A — MONO INDUSTRIAL
+   Juodai balta brand estetika: stambi uppercase tipografija,
+   grayscale foto, juodi blokai, hairline grid, signal orange akcentas
+   ============================================================ */
+:root {
+  --ink: #0C0E10;
+  --ink-soft: #23272C;
+  --body: #40474F;
+  --muted: #737C86;
+  --line: #E3E6E9;
+  --paper: #FFFFFF;
+  --canvas: #F4F5F6;
+  --accent: #FF4F00;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html, body { overflow-x: clip; }
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px; line-height: 1.7; color: var(--body); background: var(--paper);
+}
+img { max-width: 100%; display: block; }
+a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+h1, h2 { color: var(--ink); font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.02; }
+h3, h4 { color: var(--ink); font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; }
+
+.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7;
+     stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.socials { display: flex; gap: 16px; align-items: center; }
+.socials a { display: inline-flex; color: inherit; text-decoration: none; }
+.socials svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6;
+               stroke-linecap: round; stroke-linejoin: round; }
+.socials svg .f { fill: currentColor; stroke: none; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+  line-height: 1; padding: 19px 34px; border-radius: 0; border: 2px solid var(--ink);
+  white-space: nowrap; cursor: pointer; text-decoration: none;
+  transition: background .18s, color .18s, border-color .18s;
+}
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-accent { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.btn-accent:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn-ghost, .btn-secondary { background: transparent; color: var(--ink); }
+.btn-ghost:hover, .btn-secondary:hover { background: var(--ink); color: #fff; }
+
+/* ---------- Topbar ---------- */
+.topbar { background: var(--ink); font-size: 12.5px; }
+.topbar-in { display: flex; justify-content: space-between; align-items: center; min-height: 42px; gap: 16px;
+             padding-left: 178px; }
+.topbar-left, .topbar-right { display: flex; align-items: center; gap: 24px; min-width: 0; }
+.topbar a, .topbar-hours { display: inline-flex; align-items: center; gap: 7px;
+  color: rgba(255,255,255,.65); text-decoration: none; letter-spacing: .04em; }
+.topbar .i { width: 13px; height: 13px; }
+.topbar a:hover { color: #fff; }
+.topbar .socials { color: rgba(255,255,255,.55); }
+.topbar .socials a:hover { color: #fff; }
+
+/* ---------- Navbar ---------- */
+.site-header { position: sticky; top: -42px; z-index: 90; }
+.navbar { background: var(--paper); border-bottom: 2px solid var(--ink); }
+.navbar-in { display: flex; align-items: center; gap: 40px; min-height: 84px; position: relative;
+             padding-left: 178px; }
+.logo {
+  position: absolute; left: 28px; top: -42px; bottom: 0; z-index: 70;
+  display: flex; align-items: center; text-decoration: none;
+  background: var(--paper); border: 2px solid var(--ink); border-top: 0; border-bottom: 0; padding: 0 18px;
+  transition: top .25s, padding .25s, border-color .25s, background .25s;
+}
+.logo img { height: 86px; width: auto; transform-origin: left center; transition: transform .25s; }
+.logo-light { display: none; }
+.is-stuck .logo { top: 0; border-color: transparent; background: transparent; padding: 0; }
+.is-stuck .logo img { transform: scale(.8); }
+.site-nav { margin-left: auto; }
+.site-nav > ul { list-style: none; display: flex; gap: 30px; }
+.site-nav a {
+  color: var(--ink); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em;
+  display: inline-flex; align-items: center; gap: 5px; text-decoration: none; padding: 6px 0;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a:hover { border-bottom-color: var(--accent); color: var(--ink); }
+.car { width: 12px; height: 12px; }
+.has-sub { position: relative; }
+.sub {
+  display: none; position: absolute; top: 100%; left: -24px; padding: 12px 0; min-width: 330px;
+  background: var(--ink); list-style: none; z-index: 60;
+}
+.has-sub:hover .sub, .has-sub:focus-within .sub { display: block; }
+.sub a { display: block; padding: 11px 26px; font-size: 12.5px; color: rgba(255,255,255,.8);
+         border-bottom: none; letter-spacing: .06em; }
+.sub a:hover { background: rgba(255,255,255,.07); color: #fff; }
+.nav-contact { display: flex; align-items: center; }
+.btn-nav { padding: 14px 26px; }
+.nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
+.nav-burger { display: none; }
+
+/* ---------- Hero ---------- */
+.hero { padding: 96px 0 104px; border-bottom: 2px solid var(--ink); }
+.hero-in { display: grid; grid-template-columns: 5.4fr 6.6fr; gap: 64px; align-items: center; }
+.hero h1 { font-size: clamp(40px, 5vw, 68px); margin-bottom: 22px; }
+.hero-sub { font-size: 18px; color: var(--muted); margin-bottom: 40px; max-width: 46ch; }
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-address {
+  display: inline-block; font-size: 13px; font-weight: 700; color: var(--ink);
+  text-transform: uppercase; letter-spacing: .08em; border-top: 2px solid var(--ink);
+  padding-top: 18px; font-variant-numeric: tabular-nums;
+}
+.hero-media { position: relative; margin: 0 20px 36px 36px; }
+.hero-photo { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.hero-photo {
+  position: relative; z-index: 1; border: 2px solid var(--ink);
+  filter: grayscale(1) contrast(1.06);
+}
+.hero-photo-2 {
+  position: absolute; z-index: 2; left: -36px; bottom: -36px; width: 46%;
+  border: 2px solid var(--ink); box-shadow: 0 0 0 10px var(--paper);
+  filter: grayscale(1) contrast(1.06);
+}
+.hero-card { display: none; }
+
+/* Hero wire. v1: the offset frame line itself is the cable (L-shape, px geometry set by
+   the script at the end of the page). v2: the frame stays static and a separate curved
+   cable hangs between the photos. Switched with body[data-wire]. */
+.hero-wire { position: absolute; z-index: 3; pointer-events: none; overflow: visible; }
+.hero-cable { inset: 0; width: 100%; height: 100%; }
+.hero-cable-2 { left: calc(46% - 36px); bottom: -76px; width: 300px; height: 120px; display: none; }
+.hero-wire .wire, .hero-wire .pulse { fill: none; stroke-width: 2px; }
+.hero-cable-2 .wire, .hero-cable-2 .pulse { stroke-width: 2.5px; }
+.hero-wire .wire {
+  stroke: var(--ink); stroke-linecap: butt; stroke-linejoin: miter; stroke-dasharray: 100; stroke-dashoffset: 100;
+  animation: cable-draw 1.3s cubic-bezier(.65,0,.35,1) .5s forwards;
+}
+.hero-wire .pulse {
+  stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 8 192; stroke-dashoffset: 8; opacity: 0;
+  animation: cable-pulse 3.2s ease-in-out 2.4s infinite;
+}
+.hero-wire .plug { fill: var(--ink); opacity: 0; animation: cable-plug .3s ease-out forwards; }
+.hero-wire .plug-a { animation-delay: .3s; }
+.hero-wire .plug-b { animation-delay: 1.65s; }
+body[data-wire="v2"] .hero-cable-2 { display: block; }
+body[data-wire="v2"] .hero-cable .wire { animation: none; stroke-dashoffset: 0; }
+body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse { display: none; }
+@keyframes cable-draw { to { stroke-dashoffset: 0; } }
+@keyframes cable-plug { to { opacity: 1; } }
+@keyframes cable-pulse {
+  0%   { stroke-dashoffset: 8;    opacity: 0; }
+  4%   { opacity: 1; }
+  52%  { opacity: 1; }
+  56%  { stroke-dashoffset: -100; opacity: 0; }
+  100% { stroke-dashoffset: -100; opacity: 0; }
+}
+
+/* ---------- Trust: juodas blokas ---------- */
+.trust { background: var(--ink); color: #fff; }
+.trust-in { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 96px; }
+.trust-item { position: relative; padding: 64px 0; }
+.trust-item + .trust-item::before {
+  content: ""; position: absolute; left: -48px; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.18);
+}
+.trust-ico { display: none; }
+.trust-item h3 {
+  color: #fff; font-size: clamp(19px, 1.7vw, 24px); font-weight: 800; text-transform: uppercase;
+  letter-spacing: -0.01em; line-height: 1.25; max-width: 22ch;
+}
+
+/* ---------- Intro ---------- */
+.intro { padding: 112px 0; }
+.intro-in { display: grid; grid-template-columns: 7fr 5fr; gap: 88px; align-items: start; }
+.intro h2 { font-size: clamp(30px, 3.4vw, 44px); margin-bottom: 20px; }
+.intro h2::after { content: ""; display: block; width: 56px; height: 4px; background: var(--accent); margin-top: 20px; }
+.intro h2 { margin-bottom: 36px; }
+.intro-text p { margin-bottom: 20px; font-size: 16.5px; max-width: 62ch; }
+.intro-text p:last-child { margin-bottom: 0; }
+.intro-photo { position: relative; margin: 12px 20px 48px 0; }
+.intro-photo-1 {
+  width: 100%; aspect-ratio: 2 / 3; object-fit: cover; object-position: 30% 50%;
+  border: 2px solid var(--ink); filter: grayscale(1) contrast(1.06);
+}
+.intro-photo-2 {
+  position: absolute; right: -20px; bottom: -48px; width: 58%;
+  border: 2px solid var(--ink); box-shadow: 0 0 0 10px var(--paper);
+  filter: grayscale(1) contrast(1.06);
+}
+
+/* ---------- Works: kainos + paslaugos ---------- */
+.works { background: var(--canvas); padding: 112px 0; border-top: 2px solid var(--ink); }
+.works h2 { font-size: clamp(28px, 3.2vw, 42px); max-width: 22ch; margin-bottom: 56px; }
+.price-list { max-width: 860px; }
+.price-head {
+  display: flex; justify-content: space-between; padding-bottom: 14px;
+  border-bottom: 3px solid var(--ink);
+  font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
+}
+.price-row { display: flex; align-items: baseline; gap: 20px; padding: 17px 0; border-bottom: 1px solid #D3D7DB; }
+.price-name { font-size: 16.5px; color: var(--ink-soft); min-width: 0; }
+.price-dots { display: none; }
+.price-val { margin-left: auto; font-size: 17.5px; font-weight: 800; color: var(--ink);
+             font-variant-numeric: tabular-nums; white-space: nowrap; }
+.price-free { color: var(--accent); }
+.price-more { margin-top: 26px; font-size: 15px; color: var(--muted); }
+
+.svc-grid {
+  margin-top: 88px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: #D3D7DB; border: 2px solid var(--ink); counter-reset: svc;
+}
+.svc {
+  background: var(--paper); padding: 34px 28px 38px; counter-increment: svc; position: relative;
+  transition: background .2s;
+}
+.svc::before {
+  content: counter(svc, decimal-leading-zero);
+  display: block; font-size: 44px; font-weight: 800; line-height: 1;
+  color: transparent; -webkit-text-stroke: 1.5px #C6CBD1;
+  font-variant-numeric: tabular-nums; margin-bottom: 26px; transition: -webkit-text-stroke-color .2s;
+}
+.svc:hover { background: var(--ink); }
+.svc:hover::before { -webkit-text-stroke-color: var(--accent); }
+.svc:hover .svc-name { color: #fff; }
+.svc:hover .svc-desc { color: rgba(255,255,255,.72); }
+.svc:hover .svc-desc a { color: #fff; }
+.svc-ico { display: none; }
+.svc-name { font-size: 16.5px; font-weight: 800; color: var(--ink); text-transform: uppercase;
+            letter-spacing: .01em; line-height: 1.35; margin-bottom: 12px; transition: color .2s; }
+.svc-desc { font-size: 14.5px; line-height: 1.62; color: var(--body); transition: color .2s; }
+
+/* ---------- CTA blokai ---------- */
+.cta-blocks { padding: 104px 0; }
+.cta-in { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 96px; }
+.cta-block { position: relative; display: flex; flex-direction: column; align-items: flex-start; }
+.cta-block + .cta-block::before {
+  content: ""; position: absolute; left: -48px; top: 0; bottom: 0; width: 1px; background: var(--line);
+}
+.cta-block h4 { font-size: 21px; text-transform: uppercase; margin-bottom: 16px; }
+.cta-block p { font-size: 15px; margin-bottom: 30px; flex: 1; }
+.cta-block .btn { padding: 15px 26px; font-size: 12.5px; }
+
+/* ---------- Atsiliepimai: juodas blokas ---------- */
+.reviews { background: var(--ink); color: rgba(255,255,255,.85); padding: 112px 0; }
+.reviews h3 { color: #fff; font-size: clamp(28px, 3.2vw, 42px); font-weight: 800;
+              text-transform: uppercase; margin-bottom: 20px; }
+.reviews h3::after { content: ""; display: block; width: 56px; height: 4px; background: var(--accent); margin-top: 20px; }
+.reviews h3 { margin-bottom: 56px; }
+.reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,.2);
+                border: 1px solid rgba(255,255,255,.2); }
+.review { background: var(--ink); padding: 44px 48px; }
+.stars { display: flex; gap: 4px; margin-bottom: 22px; }
+.stars svg { width: 15px; height: 15px; fill: var(--accent); }
+.review p { font-size: 16.5px; line-height: 1.7; margin-bottom: 24px; }
+.review h4 { color: #fff; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; }
+.review h4 span { font-weight: 400; color: rgba(255,255,255,.5); font-size: 12.5px; margin-left: 8px;
+                  text-transform: none; letter-spacing: 0; }
+
+/* ---------- Blogas ---------- */
+.blog { padding: 112px 0; }
+.blog h3 { font-size: clamp(28px, 3.2vw, 42px); font-weight: 800; text-transform: uppercase; margin-bottom: 20px; }
+.blog h3::after { content: ""; display: block; width: 56px; height: 4px; background: var(--accent); margin-top: 20px; }
+.blog h3 { margin-bottom: 56px; }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
+.post-img { display: block; }
+.post-img img {
+  border: 2px solid var(--ink); aspect-ratio: 3 / 2; object-fit: cover; width: 100%;
+  filter: grayscale(1) contrast(1.05); transition: filter .3s;
+}
+.post:hover .post-img img { filter: grayscale(0) contrast(1); }
+.post-body { padding-top: 22px; }
+.post-date {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
+}
+.post-date .i { width: 14px; height: 14px; }
+.post h4 { font-size: 18.5px; font-weight: 800; line-height: 1.35; margin-bottom: 10px; }
+.post h4 a { color: var(--ink); text-decoration: none; }
+.post h4 a:hover { color: var(--accent); }
+.post-body > p { font-size: 14.5px; color: var(--muted); }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--ink); color: #9AA3AC; border-top: 2px solid var(--ink); }
+.foot-grid { display: grid; grid-template-columns: 1.2fr 1.2fr .9fr; gap: 72px; padding: 88px 28px 64px; }
+.foot-logo { height: 72px; width: auto; margin-bottom: 26px; }
+.foot-about p { font-size: 14.5px; line-height: 1.7; margin-bottom: 28px; max-width: 40ch; }
+.site-footer .socials { color: #78828C; }
+.site-footer .socials a:hover { color: #fff; }
+.site-footer h3 {
+  color: #fff; font-size: 12.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.site-footer h3::after { content: ""; display: block; width: 28px; height: 3px; background: var(--accent); margin-top: 12px; }
+.foot-posts { list-style: none; display: grid; gap: 20px; }
+.foot-posts li { display: flex; gap: 16px; align-items: flex-start; }
+.foot-thumb img { width: 58px; height: 58px; object-fit: cover; border: 1px solid rgba(255,255,255,.25);
+                  filter: grayscale(1); }
+.foot-posts div a { color: #C8CFD6; font-size: 14px; line-height: 1.5; display: block; text-decoration: none; }
+.foot-posts div a:hover { color: #fff; }
+.foot-posts div span { display: block; font-size: 12px; color: #6E7883; margin-top: 5px;
+                       text-transform: uppercase; letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+.foot-contacts { list-style: none; display: grid; gap: 16px; }
+.foot-contacts li { display: flex; gap: 12px; align-items: baseline; font-size: 14.5px; }
+.foot-contacts .i { width: 15px; height: 15px; transform: translateY(2px); color: var(--accent); }
+.foot-contacts a { color: #C8CFD6; text-decoration: none; }
+.foot-contacts a:hover { color: #fff; }
+.foot-bottom { border-top: 1px solid rgba(255,255,255,.15); }
+.foot-bottom-in { display: flex; justify-content: space-between; align-items: center; gap: 20px;
+                  flex-wrap: wrap; padding-top: 24px; padding-bottom: 24px; font-size: 12.5px; }
+.foot-nav { display: flex; gap: 26px; flex-wrap: wrap; }
+.foot-nav a { color: #78828C; font-size: 12.5px; text-decoration: none; text-transform: uppercase;
+              letter-spacing: .05em; }
+.foot-nav a:hover { color: #fff; }
+
+.sticky-call { display: none; }
+
+/* ---------- Responsive ---------- */
+/* ---------- Version switcher (review only) ---------- */
+.ver-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 1000;
+  background: var(--paper); border: 2px solid var(--ink); padding: 10px 12px;
+  display: grid; gap: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+  box-shadow: 0 10px 30px rgba(12,14,16,.16);
+}
+.ver-row { display: flex; align-items: center; gap: 6px; }
+.ver-row span { width: 52px; color: var(--muted); }
+.ver-row button {
+  font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; line-height: 1;
+  background: transparent; color: var(--ink); border: 1px solid var(--ink); padding: 6px 9px;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.ver-row button:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.ver-row button.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+@media (max-width: 1024px) {
+  .trust-in, .cta-in { column-gap: 48px; }
+  .trust-item + .trust-item::before, .cta-block + .cta-block::before { left: -24px; }
+  .trust-item { padding: 56px 0; }
+  .logo, .is-stuck .logo { position: static; border: 0; background: transparent; padding: 0; }
+  .logo img, .is-stuck .logo img { height: 44px; transform: none; }
+  .topbar-in, .navbar-in { padding-left: 28px; }
+  .site-nav { display: none; position: absolute; top: 100%; left: 0; right: 0;
+              background: var(--paper); border-bottom: 2px solid var(--ink); margin: 0; }
+  .nav-toggle:checked ~ .site-nav { display: block; }
+  .site-nav > ul { flex-direction: column; gap: 0; padding: 14px 28px 22px; }
+  .site-nav > ul > li > a { padding: 13px 0; font-size: 14px; border-bottom: none; }
+  .sub { display: block; position: static; min-width: 0; padding: 0 0 10px 18px; background: transparent; }
+  .sub a { padding: 8px 0; color: var(--muted); }
+  .car { display: none; }
+  .nav-burger {
+    display: flex; align-items: center; justify-content: center; width: 46px; height: 46px;
+    margin-left: auto; cursor: pointer; border: 2px solid var(--ink);
+  }
+  .nav-burger span, .nav-burger span::before, .nav-burger span::after {
+    content: ""; display: block; width: 18px; height: 2px; background: var(--ink); position: relative;
+  }
+  .nav-burger span::before { position: absolute; top: -6px; }
+  .nav-burger span::after { position: absolute; top: 6px; }
+  .site-nav { margin-left: 0; }
+  .navbar-in { gap: 16px; }
+  .hero-in, .intro-in { grid-template-columns: 1fr; gap: 56px; }
+  .hero-media { max-width: 680px; }
+  .intro-photo { max-width: 560px; }
+  .intro-photo-1 { aspect-ratio: auto; }
+  .svc-grid { grid-template-columns: 1fr 1fr; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 52px; }
+}
+@media (max-width: 860px) {
+  .topbar-right { display: none; }
+  .cta-in { grid-template-columns: 1fr; }
+  .cta-block + .cta-block { border-top: 1px solid var(--line); margin-top: 44px; padding-top: 44px; }
+  .cta-block + .cta-block::before { display: none; }
+  .blog-grid { grid-template-columns: 1fr; gap: 52px; }
+  .trust-in { grid-template-columns: 1fr; }
+  .trust-item { padding: 40px 0; }
+  .trust-item + .trust-item { border-top: 1px solid rgba(255,255,255,.18); }
+  .trust-item + .trust-item::before { display: none; }
+  .trust-item h3 { max-width: none; }
+}
+@media (max-width: 720px) {
+  body { font-size: 16px; padding-bottom: 74px; }
+  .topbar-left { width: 100%; justify-content: space-between; }
+  .topbar-hours { display: none; }
+  .hero { padding: 56px 0 64px; }
+  .hero h1 { font-size: clamp(38px, 11vw, 48px); }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; }
+  .hero-media { margin: 0 12px 24px 24px; }
+  .hero-photo-2 { left: -24px; bottom: -24px; box-shadow: 0 0 0 8px var(--paper); }
+  body[data-wire="v2"] .hero-cable-2 { display: none; }
+  .ver-switch { bottom: 84px; }
+  .intro, .works, .reviews, .blog { padding: 72px 0; }
+  .cta-blocks { padding: 64px 0; }
+  .svc-grid { grid-template-columns: 1fr; margin-top: 60px; }
+  .svc { padding: 26px 24px 30px; }
+  .svc::before { font-size: 34px; margin-bottom: 18px; }
+  .review { padding: 32px 28px; }
+  .intro-photo { margin: 0 12px 40px 0; }
+  .intro-photo-2 { right: -12px; bottom: -40px; box-shadow: 0 0 0 8px var(--paper); }
+  .btn-nav { display: none; }
+  .foot-grid { grid-template-columns: 1fr; gap: 48px; padding-top: 64px; }
+  .foot-bottom-in { flex-direction: column; align-items: flex-start; }
+  .sticky-call {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+    background: var(--paper); border-top: 2px solid var(--ink); padding: 11px 16px; gap: 12px;
+  }
+  .sticky-call .btn { flex: 1; padding: 15px 20px; }
+  .sticky-tel {
+    display: inline-flex; align-items: center; justify-content: center; width: 50px; height: 50px;
+    border: 2px solid var(--ink); color: var(--ink); flex: none;
+  }
+  .sticky-tel .i { width: 20px; height: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  .hero-wire .wire { animation: none; stroke-dashoffset: 0; }
+  .hero-wire .plug { animation: none; opacity: 1; }
+  .hero-wire .pulse { animation: none; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="topbar">
+    <div class="container topbar-in">
+      <div class="topbar-left">
+        <a href="tel:+370 672 22354"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l1.5 4L8 10a12 12 0 006 6l2-2.5L20 15v4a1.5 1.5 0 01-1.6 1.5A16.5 16.5 0 013.5 5.6 1.5 1.5 0 015 4z"/></svg>+370 672 22354</a>
+        <a href="https://goo.gl/maps/j8mjLXtFpBx25Wnu6"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-10.4A6.5 6.5 0 0112 4a6.5 6.5 0 016.5 6.6C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg>Pylimo g. 35, Vilnius</a>
+        <span class="topbar-hours"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 7.5V12l3 2"/></svg>I - V : 08:00 - 19:00</span>
+      </div>
+      <div class="topbar-right">
+        <a href="mailto:info@termopasta.lt"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 7l8 6 8-6"/></svg>info@termopasta.lt</a>
+        <div class="socials">
+          <a href="https://www.facebook.com/TermoPastaLT" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="f" d="M13.5 21v-6.5h2.2l.5-2.8h-2.7V9.9c0-.8.3-1.4 1.5-1.4h1.3V6a14 14 0 00-2-.1c-2.1 0-3.6 1.3-3.6 3.7v2.1H8.5v2.8h2.2V21z"/></svg></a>
+          <a href="https://www.instagram.com/kompiuteriuremontas.termopasta/" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle class="f" cx="16.8" cy="7.2" r="1.1"/></svg></a>
+          <a href="https://www.youtube.com/c/termopastalt" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path class="f" d="M10.5 9.5l4.5 2.5-4.5 2.5z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <div class="container navbar-in">
+      <a class="logo" href="https://www.termopasta.lt/">
+        <img class="logo-dark" src="img/TermoPasta-log.png" alt="Termopasta">
+        <img class="logo-light" src="img/termopasta-white-logo.png" alt="Termopasta">
+      </a>
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Meniu">
+      <label for="nav-toggle" class="nav-burger"><span></span></label>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="https://www.termopasta.lt/apie-mus/">Apie mus</a></li>
+          <li><a href="https://www.termopasta.lt/remonto-kainos/">Remonto kainos</a></li>
+          <li class="has-sub"><a href="#">Paslaugos<svg class="i car" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg></a>
+            <ul class="sub">
+              <li><a href="https://www.termopasta.lt/kompiuterio-ekrano-keitimas/">Nešiojamo kompiuterio ekrano keitimas</a></li>
+              <li><a href="https://www.termopasta.lt/kompiuterio-baterijos-keitimas/">Nešiojamo kompiuterio baterijos keitimas</a></li>
+              <li><a href="https://www.termopasta.lt/kompiuteriu-supirkimas/">Kompiuterių supirkimas</a></li>
+              <li><a href="https://www.termopasta.lt/kurjerio-paslauga/">Kurjerio paslauga</a></li>
+              <li><a href="https://www.termopasta.lt/apple-kompiuteriu-remontas/">Apple remontas</a></li>
+            </ul>
+          </li>
+          <li><a href="https://www.termopasta.lt/patarimai/">Patarimai</a></li>
+          <li><a href="https://www.termopasta.lt/kontaktai/">Kontaktai</a></li>
+        </ul>
+      </nav>
+      <div class="nav-contact">
+        <a class="btn btn-primary btn-nav" href="https://www.termopasta.lt/kontaktai/">Susisiekti</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container hero-in">
+    <div class="hero-content">
+      <h1>Kompiuterių remontas Vilniuje</h1>
+      <p class="hero-sub">TermoPasta – Kompiuterių remontas. Pylimo g. 35, Vilnius</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href="/rezervacija/">Rezervacija internetu</a>
+        <a class="btn btn-ghost" href="/kontaktai">Susisiekite</a>
+      </div>
+      <p class="hero-address">Pylimo g. 35&nbsp;&nbsp;|&nbsp;&nbsp;Vilnius&nbsp;&nbsp;|&nbsp;&nbsp;+370 672 22354</p>
+    </div>
+    <div class="hero-side">
+      <div class="hero-media">
+        <img class="hero-photo" src="img/78.png" alt="">
+        <img class="hero-photo-2" src="img/94.png" alt="">
+        <svg class="hero-wire hero-cable" aria-hidden="true">
+          <path class="wire" pathLength="100"/>
+          <path class="pulse" pathLength="100"/>
+          <rect class="plug plug-a" width="14" height="12" rx="1.5"/>
+          <rect class="plug plug-b" width="14" height="12" rx="1.5"/>
+        </svg>
+        <svg class="hero-wire hero-cable-2" viewBox="0 -30 300 120" aria-hidden="true">
+          <path class="wire" pathLength="100" d="M12 10 C80 10 100 76 140 76 C190 76 240 60 240 18"/>
+          <path class="pulse" pathLength="100" d="M12 10 C80 10 100 76 140 76 C190 76 240 60 240 18"/>
+          <rect class="plug plug-a" x="0" y="4" width="12" height="12" rx="1.5"/>
+          <rect class="plug plug-b" x="234" y="4" width="12" height="14" rx="1.5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-card">
+      <a class="hero-card-tel" href="tel:+370 672 22354">+370 672 22354</a>
+      <span>Pylimo g. 35, Vilnius</span>
+      <span>I - V : 08:00 - 19:00</span>
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="container trust-in">
+    <div class="trust-item">
+      <span class="trust-ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.3l2.3 2.3 4.7-4.9"/></svg></span>
+      <h3>Kompiuterį remontuojantis pas mus – diagnostika nemokama!</h3>
+    </div>
+    <div class="trust-item">
+      <span class="trust-ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.6"/></svg></span>
+      <h3>Visiems remonto darbams suteikiame garantiją!</h3>
+    </div>
+    <div class="trust-item">
+      <span class="trust-ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6.5a4.5 4.5 0 015.6 5.6L16 16.2 7.8 8z"/><path d="M9.5 17.5a4.5 4.5 0 01-5.6-5.6L8 8.2l8.2 8.2-2 2a4.5 4.5 0 01-4.7-.9z"/></svg></span>
+      <h3>Įrenginius taisome savo įkurtose moderniose dirbtuvėse</h3>
+    </div>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="container intro-in">
+    <div class="intro-text">
+      <h2>Profesionalus kompiuterių remontas</h2>
+      <p>Taisome visų kompiuterių gamintojų – Apple, Dell, Lenovo, Samsung, Toshiba, Asus, Acer, HP, Clevo, Aorus, Multicom, Huawei, Xiaomi, Gigabyte, Medion, Fujitsu, Sony VAIO, ir kt. nešiojamus ir stacionarius kompiuterius. Turime virš 10 metų patirties kompiuterių remonte, todėl galite būti tikri, kad Jūsų įrenginys bus taisomas profesionalų rankomis. Galime pasidžiaugti, kad per ilgus darbo metus savo klientams esame suremontavę virš 12.000 įrenginių.</p>
+      <p>Atliekame visus kompiuterių remonto darbus. Nuo paprasčiausio programinės įrangos atnaujinimo, profilaktinio dulkių valymo iki sudėtingų mikroschemų litavimo darbų. Visus darbus atliekame savo įkurtose moderniose dirbtuvėse.</p>
+      <p>Malonus aptarnavimas ir profesionalūs meistrai užtikrina aukščiausią kompiuterio remonto darbų kokybę. Visiems atliktiems remonto darbams taikome <strong>3 mėnesių garantiją</strong>.</p>
+      <p>Iškilus bėdai su kompiuteriu ar norint pasikonsultuoti, visada galite susisiekti patogiu būdu <a href="/kontaktai/">kontaktų skiltyje</a>. Visuomet padėsime išspręsti bėdas kilusias su Jūsų kompiuteriu ir jeigu prireiks remonto, pasiūlysime geriausią sprendimo būdą. Kompiuterį remontuojantis pas mus – diagnostika nemokama. Taip pat visoje Lietuvoje siūlome nemokamą kurjerio paslaugą.</p>
+    </div>
+    <figure class="intro-photo">
+      <img class="intro-photo-1" src="img/kompiuteriu-remontas-vilniuje-912x1024.jpg" alt="kompiuteriu-remontas-viliuje">
+      <img class="intro-photo-2" src="img/28.png" alt="">
+    </figure>
+  </div>
+</section>
+
+<section class="works">
+  <div class="container">
+    <h2>Dažniausiai atliekami kompiuterių remonto darbai</h2>
+
+    <div class="price-list">
+      <div class="price-head"><span>Paslauga</span><span>Kaina, €</span></div>
+      <div class="price-row"><span class="price-name">Konsultacijos</span><span class="price-dots"></span><span class="price-val price-free">NEMOKAMAI</span></div>
+      <div class="price-row"><span class="price-name">Kompiuterio ekrano keitimas</span><span class="price-dots"></span><span class="price-val">nuo 60.00€</span></div>
+      <div class="price-row"><span class="price-name">Windows operacinės sistemos perrašymas</span><span class="price-dots"></span><span class="price-val">39.00€</span></div>
+      <div class="price-row"><span class="price-name">Aušinimo sistemos profilaktika (dulkių valymas, termopastos keitimas)</span><span class="price-dots"></span><span class="price-val">43.00 - 53.00€</span></div>
+      <div class="price-row"><span class="price-name">Kompiuterio pagrindinės plokštės remontas</span><span class="price-dots"></span><span class="price-val">nuo 199.00€</span></div>
+      <div class="price-row"><span class="price-name">Kietojo disko keitimas</span><span class="price-dots"></span><span class="price-val">59.00 - 169.00€</span></div>
+      <div class="price-row"><span class="price-name">Apipilto kompiuterio remontas</span><span class="price-dots"></span><span class="price-val">86.00 - 310.00€</span></div>
+      <div class="price-row"><span class="price-name">Lizdo remontas</span><span class="price-dots"></span><span class="price-val">57.00 - 86.00€</span></div>
+      <div class="price-row"><span class="price-name">Vyrių remontas</span><span class="price-dots"></span><span class="price-val">57.00 - 86.00€</span></div>
+    </div>
+    <p class="price-more">Visą kompiuterio remonto darbų kainininką rasite <a href="/remonto-kainos/">čia</a></p>
+
+    <div class="svc-grid">
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1"/><rect x="10.2" y="10.2" width="3.6" height="3.6"/><path d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3"/></svg></span>
+        <p class="svc-name">Motininių plokščių remontas</p>
+        <p class="svc-desc">Atliekame kompiuterių pagrindinių plokščių remontą. Keičiame USB, krovimo ir kitus lizdus. Remontuojame vaizdo plokštes, keičiame įvairias mikroschemas, taisome supiltus kompiuterius.</p>
+      </article>
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="1.8"/><path d="M12 10.2V5.5M13.6 12.9l4.1 2.4M10.4 12.9l-4.1 2.4"/></svg></span>
+        <p class="svc-name">Aušinimo sistemos valymas ir remontas</p>
+        <p class="svc-desc">Sprendžiame kompiuterio kaitimo problemas. Valome užsikimšusius radiatorius, keičiame išdžiuvusią termopastą ir susidėvejusius ventiliatorius</p>
+      </article>
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M9 19.5h6M12 16.5v3"/></svg></span>
+        <p class="svc-name">Kompiuterių ekranų (matricų) keitimas</p>
+        <p class="svc-desc">Keičiame ekranus visiems nešiojamiems kompiuteriams, sandelyje turime , naujų, naudotų, matinių ir blizgių matricų.</p>
+      </article>
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 6.5h13v9h-13z"/><path d="M3 17.5h18l-1.2 2H4.2z"/></svg></span>
+        <p class="svc-name">Kompiuterių korpusų remontas</p>
+        <p class="svc-desc">Keičiame ir taisome sulūžusius kompiuterio korpusus bei vyrius. Klijuojame specialiais klijais, atstatome senas korpusų formas.</p>
+      </article>
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 8V3.5M14.5 8V3.5M8 8h8v3.5a4 4 0 01-8 0z"/><path d="M12 15.5V20"/></svg></span>
+        <p class="svc-name">Nešiojamų kompiuterių įkroviklių remontas</p>
+        <p class="svc-desc">Remontuojame daugelio gamintojų įkroviklius tarp jų ir <a href="/apple-kompiuteriu-remontas/">Apple Macbook</a> Magsafe. Pas mus galite įsigyti daugelio gamintojų originalių, pakaitinių bei naudotų įkroviklių. Visiems pakrovėjams suteikiame garantiją.</p>
+      </article>
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3 4.4 6 7.3 6 10.4a6 6 0 11-12 0c0-3.1 3-6 6-10.4z"/></svg></span>
+        <p class="svc-name">Aplietų kompiuterių remontas</p>
+        <p class="svc-desc">Suliejus kompiuterį neskubėkite jo keisti, daugeliu atveju jį galima sutaisyti. Specialios ultragarsinės vonelės pagalba galima pašalinti koroziją iš fiziškai nepasiekiamų vietų ir esant reikalui patyrę meistrai gali atstatyti pažeistus komponetus ir takelius pagrindinėje plokštėje</p>
+      </article>
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="12" r="3.2"/><path d="M11.2 12H20M17 12v3M20 12v2"/></svg></span>
+        <p class="svc-name">Kompiuterių slaptažodžių atstatymas, keitimas, šalinimas.</p>
+        <p class="svc-desc">Pamiršus kompiuterio prisijungimo arba BIOS kodą galime jį pašalinti arba pakeisti.</p>
+      </article>
+      <article class="svc">
+        <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="8.5" width="15" height="7" rx="1.5"/><path d="M21 11v2M6.5 11v2M9.5 11v2M12.5 11v2"/></svg></span>
+        <p class="svc-name">Nešiojamų kompiuterių baterijų keitimas</p>
+        <p class="svc-desc">Pas mus galite nusipirkti arba pasikeisti bateriją savo nešiojamam kompiuteriui. Prekiaujame naujomis naudotomis originaliomis pakaitinėmis baterijomis, Visoms baterijoms suteikiame garantiją.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="cta-blocks">
+  <div class="container cta-in">
+    <div class="cta-block">
+      <h4>Kompiuterių supirkimas</h4>
+      <p>Turite nenaudojamą nešiojamą kompiuterį? Mes iš Jūsų nupirksime seną, neveikiantį ar tiesiog pabodusį nešiojamą kompiuterį.</p>
+      <a class="btn btn-secondary" href="https://www.termopasta.lt/kompiuteriu-supirkimas/">Kompiuterių supirkimas</a>
+    </div>
+    <div class="cta-block">
+      <h4>Kompiuterių remonto kainos</h4>
+      <p>Mūsų kompetetingi meistrai visada pasiūlys geriausią kokybę už palankiausią kainą. Susisiekite su mumis ir mes nurodysime Jums tikslias kompiuterio remonto darbų kainas.</p>
+      <a class="btn btn-secondary" href="https://www.termopasta.lt/remonto-kainos/">Kainos</a>
+    </div>
+    <div class="cta-block">
+      <h4>Kompiuteris labai kaista?</h4>
+      <p>Šią problemą galime sutvarkyti greitai ir nebrangiai. Susisiekite su mumis ir mes išvalysime Jūsų kompiuterio aušinimo sistemą.</p>
+      <a class="btn btn-secondary" href="https://www.termopasta.lt/kontaktai/">Susisiekite</a>
+    </div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="container">
+    <h3>Klientų atsiliepimai</h3>
+    <div class="reviews-grid">
+      <blockquote class="review">
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg></div>
+        <p>Paprastai atsiliepimų nerašau, bet tokiam nuostabiam aptarnavimui 10 balu! Tvarkiau jau 4 kompiuterius. Visada greitai ir kokybiškai dirba. Domisi mano poreikiais ir visada išeinu su šypsena! taip ir toliau!</p>
+        <h4>Vytautas Laureckis <span>Klientas</span></h4>
+      </blockquote>
+      <blockquote class="review">
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg></div>
+        <p>Visada problemas tvarkydavau ir spręsdavau pats, tačiau dabar palieku viską spręsti TermoPastai, o pats tuo metu galiu rūpintis kitais dalykais. Pasitikiu!</p>
+        <h4>David Lun <span>Klientas</span></h4>
+      </blockquote>
+      <blockquote class="review">
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg></div>
+        <p>Termopasta gelbsti mano, šeimos ir draugų kompiuterius jau daugybę metų, o kiekvieno gedimo metu suprantu, kaip gera, kad nereikia net galvoti, kam patikėti jo taisymą. Šie šaunūs vyrukai dirba labai operatyviai, pasiūlo keletą sprendimo būdų ir yra visada pasiruošę padėti. Dar kartą AČIŪ!</p>
+        <h4>Rūta Sla <span>Klientė</span></h4>
+      </blockquote>
+      <blockquote class="review">
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg></div>
+        <p>Džiaugiuosi atradusi TermoPastą! Maloniai pakonsultavo, labai greitai ir kokybiškai atliko kompiuterio remonto darbus. Tikrai rekomenduoju, prireikus - net nedvejočiau ir kreipčiausi būtent čia. 🙂</p>
+        <h4>Enrika Liukpetrytė <span>Klientė</span></h4>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="blog">
+  <div class="container">
+    <h3>Mūsų patarimai Jums</h3>
+    <div class="blog-grid">
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/kompiuterio-ekrano-remontas-viskas-ka-turite-zinoti/"><img src="img/Dizainas-be-pavadinimo-12-600x400.png" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>11 Geg</span>
+          <h4><a href="https://www.termopasta.lt/kompiuterio-ekrano-remontas-viskas-ka-turite-zinoti/">Kompiuterio ekrano remontas: viskas ką turite žinoti</a></h4>
+          <p>Skilęs ar dužęs nešiojamo kompiuterio ekranas yra vienas iš labiausiai mūsų klientus erzinančių bei gąsdinančių ...</p>
+        </div>
+      </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/ka-daryti-jei-nesiojamo-kompiuterio-baterija-issikrauna-per-greitai/"><img src="img/low-battery-windows-600x400.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>14 Spa</span>
+          <h4><a href="https://www.termopasta.lt/ka-daryti-jei-nesiojamo-kompiuterio-baterija-issikrauna-per-greitai/">Kompiuterio baterija išsikrauna per greitai – ką daryti?</a></h4>
+          <p>Įsivaizduokite situaciją: atsinešate užkandžių, įsitaisote sofoje bei ketinate įsijungti mėgstamą serialą. Tačiau tuomet jūsų kompiuterio ...</p>
+        </div>
+      </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/kaip-blokuoti-ikyrias-reklamas-interneto-svetainese-adblock-plus-idiegimas/"><img src="img/patarimai-kaip-blokuoti-reklamas-600x400.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>5 Rgp</span>
+          <h4><a href="https://www.termopasta.lt/kaip-blokuoti-ikyrias-reklamas-interneto-svetainese-adblock-plus-idiegimas/">Kaip blokuoti įkyrias reklamas interneto svetainėse – Adblock Plus įdiegimas</a></h4>
+          <p>Kas yra Adblock Plus? Adblock Plus yra vienas iš populiariausių naršyklių plėtinių, skirtų populiariausioms naršyklėms ...</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container foot-grid">
+    <div class="foot-col foot-about">
+      <img class="foot-logo" src="img/termopasta-white-logo.png" alt="Termopasta">
+      <p>Malonus aptarnavimas ir profesionalūs meistrai užtikrina aukščiausią kompiuterių remonto darbų kokybę bei garantiją atliktiems darbams.</p>
+      <div class="socials">
+        <a href="https://www.facebook.com/TermoPastaLT" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="f" d="M13.5 21v-6.5h2.2l.5-2.8h-2.7V9.9c0-.8.3-1.4 1.5-1.4h1.3V6a14 14 0 00-2-.1c-2.1 0-3.6 1.3-3.6 3.7v2.1H8.5v2.8h2.2V21z"/></svg></a>
+        <a href="https://www.instagram.com/kompiuteriuremontas.termopasta/" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle class="f" cx="16.8" cy="7.2" r="1.1"/></svg></a>
+        <a href="https://www.youtube.com/c/termopastalt" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="3"/><path class="f" d="M10.5 9.5l4.5 2.5-4.5 2.5z"/></svg></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h3>Patarimai Jums</h3>
+      <ul class="foot-posts">
+        <li>
+          <a class="foot-thumb" href="https://www.termopasta.lt/kompiuterio-ekrano-remontas-viskas-ka-turite-zinoti/"><img src="img/Dizainas-be-pavadinimo-12-600x400.png" alt=""></a>
+          <div><a href="https://www.termopasta.lt/kompiuterio-ekrano-remontas-viskas-ka-turite-zinoti/">Kompiuterio ekrano remontas: viskas ką turite žinoti</a><span>Geg 11, 2023</span></div>
+        </li>
+        <li>
+          <a class="foot-thumb" href="https://www.termopasta.lt/ka-daryti-jei-nesiojamo-kompiuterio-baterija-issikrauna-per-greitai/"><img src="img/low-battery-windows-600x400.jpg" alt=""></a>
+          <div><a href="https://www.termopasta.lt/ka-daryti-jei-nesiojamo-kompiuterio-baterija-issikrauna-per-greitai/">Kompiuterio baterija išsikrauna per greitai – ką daryti?</a><span>Spa 14, 2021</span></div>
+        </li>
+        <li>
+          <a class="foot-thumb" href="https://www.termopasta.lt/kaip-blokuoti-ikyrias-reklamas-interneto-svetainese-adblock-plus-idiegimas/"><img src="img/patarimai-kaip-blokuoti-reklamas-600x400.jpg" alt=""></a>
+          <div><a href="https://www.termopasta.lt/kaip-blokuoti-ikyrias-reklamas-interneto-svetainese-adblock-plus-idiegimas/">Kaip blokuoti įkyrias reklamas interneto svetainėse – Adblock Plus įdiegimas</a><span>Rgp 5, 2019</span></div>
+        </li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3>Kontaktai</h3>
+      <ul class="foot-contacts">
+        <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-10.4A6.5 6.5 0 0112 4a6.5 6.5 0 016.5 6.6C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg>Pylimo g. 35, Vilnius</li>
+        <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l1.5 4L8 10a12 12 0 006 6l2-2.5L20 15v4a1.5 1.5 0 01-1.6 1.5A16.5 16.5 0 013.5 5.6 1.5 1.5 0 015 4z"/></svg><a href="tel:+370 672 22354">+370 672 22354</a></li>
+        <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 7l8 6 8-6"/></svg><a href="mailto:info@termopasta.lt">info@termopasta.lt</a></li>
+        <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/></svg><a href="https://www.termopasta.lt/klientu-asmens-duomenu-tvarkymo-politika/">Klientų asmens duomenų tvarkymo politika</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="container foot-bottom-in">
+      <p>© Copyright 2019. UAB „Termopasta“. Visos teisės saugomos.</p>
+      <nav class="foot-nav">
+        <a href="https://www.termopasta.lt/">Kompiuterių remontas Vilniuje</a>
+        <a href="https://www.termopasta.lt/apple-kompiuteriu-remontas/">Apple remontas</a>
+        <a href="https://www.termopasta.lt/remonto-kainos/">Remonto kainos</a>
+        <a href="https://www.termopasta.lt/kontaktai/">Kontaktai</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-call">
+  <a class="btn btn-primary" href="https://www.termopasta.lt/kontaktai/">Susisiekite</a>
+  <a class="sticky-tel" href="tel:+370 672 22354" aria-label="Skambinti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l1.5 4L8 10a12 12 0 006 6l2-2.5L20 15v4a1.5 1.5 0 01-1.6 1.5A16.5 16.5 0 013.5 5.6 1.5 1.5 0 015 4z"/></svg></a>
+</div>
+
+<div class="ver-switch" role="group" aria-label="Versijos">
+  <div class="ver-row"><span>Laidas</span><button type="button" data-set="wire" data-val="v1">v1</button><button type="button" data-set="wire" data-val="v2">v2</button></div>
+  <div class="ver-row"><span>Foto</span><button type="button" data-set="photos" data-val="v1">v1</button><button type="button" data-set="photos" data-val="v2">v2</button></div>
+</div>
+
+<script>
+(function () {
+  var header = document.querySelector('.site-header');
+  var topbar = document.querySelector('.topbar');
+  function update() {
+    header.classList.toggle('is-stuck', window.scrollY > topbar.offsetHeight);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+
+/* Hero wire: L-shaped line 20px outside the main photo, from its right edge
+   down and around to the small photo's right edge. */
+(function () {
+  var media = document.querySelector('.hero-media');
+  var svg = media && media.querySelector('.hero-cable');
+  if (!svg) return;
+  var photo = media.querySelector('.hero-photo');
+  var small = media.querySelector('.hero-photo-2');
+  var paths = svg.querySelectorAll('path');
+  var plugA = svg.querySelector('.plug-a');
+  var plugB = svg.querySelector('.plug-b');
+  var OFF = 20;
+  function layout() {
+    var W = photo.offsetWidth, H = photo.offsetHeight;
+    var sx = small.offsetLeft + small.offsetWidth;
+    var d = 'M' + W + ' ' + OFF + 'H' + (W + OFF) + 'V' + (H + OFF) + 'H' + sx;
+    for (var i = 0; i < paths.length; i++) paths[i].setAttribute('d', d);
+    plugA.setAttribute('x', W - 2);  plugA.setAttribute('y', OFF - 6);
+    plugB.setAttribute('x', sx - 2); plugB.setAttribute('y', H + OFF - 6);
+  }
+  layout();
+  if (window.ResizeObserver) new ResizeObserver(layout).observe(media);
+  else window.addEventListener('resize', layout);
+})();
+
+/* Version switcher. State lives in the URL hash: #wire=v1|v2&photos=v1|v2 */
+(function () {
+  var sw = document.querySelector('.ver-switch');
+  var photo = document.querySelector('.hero-photo');
+  var small = document.querySelector('.hero-photo-2');
+  if (!sw || !photo || !small) return;
+  var srcs = { v1: [photo.getAttribute('src'), small.getAttribute('src')] };
+  srcs.v2 = [srcs.v1[1], srcs.v1[0]];
+  var state = { wire: 'v1', photos: 'v1' };
+  location.hash.replace(/^#/, '').split('&').forEach(function (kv) {
+    var p = kv.split('=');
+    if (state.hasOwnProperty(p[0]) && /^v[12]$/.test(p[1])) state[p[0]] = p[1];
+  });
+  function apply(writeHash) {
+    document.body.setAttribute('data-wire', state.wire);
+    photo.setAttribute('src', srcs[state.photos][0]);
+    small.setAttribute('src', srcs[state.photos][1]);
+    var btns = sw.querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) {
+      var on = state[btns[i].getAttribute('data-set')] === btns[i].getAttribute('data-val');
+      btns[i].classList.toggle('is-on', on);
+      btns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    if (writeHash) {
+      var h = '#wire=' + state.wire + '&photos=' + state.photos;
+      try { history.replaceState(null, '', h); } catch (e) { location.hash = h; }
+    }
+  }
+  sw.addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (!b) return;
+    state[b.getAttribute('data-set')] = b.getAttribute('data-val');
+    apply(true);
+  });
+  apply(false);
+})();
+</script>
+</body>
+</html>

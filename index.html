@@ -59,6 +59,11 @@ h3, h4 { color: var(--ink); font-weight: 800; letter-spacing: -0.01em; line-heig
 .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn-accent { background: var(--accent); border-color: var(--accent); color: var(--ink); }
 .btn-accent:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+/* CTA colour. v1: hero orange, navbar black. v2: navbar orange, hero black. Switched with body[data-cta]. */
+body[data-cta="v2"] .btn-nav { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+body[data-cta="v2"] .btn-nav:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+body[data-cta="v2"] .hero .btn-accent { background: var(--ink); border-color: var(--ink); color: #fff; }
+body[data-cta="v2"] .hero .btn-accent:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn-ghost, .btn-secondary { background: transparent; color: var(--ink); }
 .btn-ghost:hover, .btn-secondary:hover { background: var(--ink); color: #fff; }
 
@@ -90,7 +95,8 @@ h3, h4 { color: var(--ink); font-weight: 800; letter-spacing: -0.01em; line-heig
 .is-stuck .logo { top: 0; border-color: transparent; background: transparent; padding: 0; }
 .is-stuck .logo img { transform: scale(.8); }
 .site-nav { margin-left: auto; }
-.site-nav > ul { list-style: none; display: flex; gap: 30px; }
+.site-nav > ul { list-style: none; display: flex; gap: 24px; }
+.site-nav > ul > li > a { white-space: nowrap; }
 .site-nav a {
   color: var(--ink); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .07em;
   display: inline-flex; align-items: center; gap: 5px; text-decoration: none; padding: 6px 0;
@@ -202,7 +208,8 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
 
 /* ---------- Works: kainos + paslaugos ---------- */
 .works { background: var(--canvas); padding: 112px 0; border-top: 2px solid var(--ink); }
-.works h2 { font-size: clamp(28px, 3.2vw, 42px); max-width: 22ch; margin-bottom: 56px; }
+.works h2 { font-size: clamp(28px, 3.2vw, 42px); max-width: 34ch; text-wrap: balance; margin-bottom: 56px; }
+.works .svc-title { margin-top: 104px; }
 .price-list { max-width: 860px; }
 .price-head {
   display: flex; justify-content: space-between; padding-bottom: 14px;
@@ -210,15 +217,14 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
   font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--ink);
 }
 .price-row { display: flex; align-items: baseline; gap: 20px; padding: 17px 0; border-bottom: 1px solid #D3D7DB; }
-.price-name { font-size: 16.5px; color: var(--ink-soft); min-width: 0; }
+.price-name { font-size: 17.5px; color: var(--ink-soft); min-width: 0; }
 .price-dots { display: none; }
 .price-val { margin-left: auto; font-size: 17.5px; font-weight: 800; color: var(--ink);
              font-variant-numeric: tabular-nums; white-space: nowrap; }
 .price-free { color: var(--accent); }
-.price-more { margin-top: 26px; font-size: 15px; color: var(--muted); }
+.price-more { margin-top: 40px; }
 
-.svc-grid {
-  margin-top: 88px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+.svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
   background: #D3D7DB; border: 2px solid var(--ink); counter-reset: svc;
 }
 .svc {
@@ -272,8 +278,34 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
 .blog { padding: 112px 0; }
 .blog h3 { font-size: clamp(28px, 3.2vw, 42px); font-weight: 800; text-transform: uppercase; margin-bottom: 20px; }
 .blog h3::after { content: ""; display: block; width: 56px; height: 4px; background: var(--accent); margin-top: 20px; }
-.blog h3 { margin-bottom: 56px; }
-.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; }
+.blog-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 56px; }
+.blog-head h3 { margin-bottom: 0; }
+.blog-nav { display: flex; gap: 10px; flex: none; padding-bottom: 4px; }
+.blog-nav .btn { height: 52px; padding: 0 26px; }
+.blog-nav button {
+  width: 52px; height: 52px; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--paper); color: var(--ink); border: 2px solid var(--ink); border-radius: 0; cursor: pointer;
+  transition: background .18s, color .18s, opacity .18s;
+}
+.blog-nav button .i { width: 20px; height: 20px; }
+.blog-nav button:hover:not(:disabled) { background: var(--ink); color: #fff; }
+.blog-nav button:disabled { opacity: .3; cursor: default; }
+/* Slider: cards start at the container's left edge, the track bleeds only to the right
+   viewport edge. --n cards are visible (the last one partly), --gaps = gaps in view. */
+.blog-track {
+  --n: 3.5; --gaps: 3; --gap: 32px;
+  display: flex; gap: var(--gap); overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  margin-right: calc(50% - 50vw); padding-right: calc(50vw - 50%);
+  scroll-behavior: smooth; scrollbar-width: none;
+}
+.blog-track::-webkit-scrollbar { display: none; }
+@media (hover: hover) { .blog-track { cursor: grab; } }
+.blog-track.is-dragging { scroll-snap-type: none; scroll-behavior: auto; cursor: grabbing; user-select: none; }
+.post-img img { -webkit-user-drag: none; user-select: none; }
+.post { flex: 0 0 calc((50% + 50vw - var(--gaps) * var(--gap)) / var(--n)); scroll-snap-align: start; }
+.blog-progress { height: 2px; background: var(--line); margin-top: 44px; }
+.blog-progress i { display: block; height: 100%; background: var(--ink); width: 40%; }
 .post-img { display: block; }
 .post-img img {
   border: 2px solid var(--ink); aspect-ratio: 3 / 2; object-fit: cover; width: 100%;
@@ -327,6 +359,12 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
 .sticky-call { display: none; }
 
 /* ---------- Responsive ---------- */
+@media (min-width: 1025px) and (max-width: 1199px) {
+  .navbar-in { gap: 24px; padding-left: 168px; }
+  .site-nav > ul { gap: 16px; }
+  .site-nav > ul > li > a { font-size: 12px; letter-spacing: .05em; }
+  .btn-nav { padding: 14px 16px; }
+}
 /* ---------- Version switcher (review only) ---------- */
 .ver-switch {
   position: fixed; right: 16px; bottom: 16px; z-index: 1000;
@@ -383,7 +421,8 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
   .cta-in { grid-template-columns: 1fr; }
   .cta-block + .cta-block { border-top: 1px solid var(--line); margin-top: 44px; padding-top: 44px; }
   .cta-block + .cta-block::before { display: none; }
-  .blog-grid { grid-template-columns: 1fr; gap: 52px; }
+  .blog-track { --n: 2.4; --gaps: 2; --gap: 24px; }
+  .blog-progress { margin-top: 32px; }
   .trust-in { grid-template-columns: 1fr; }
   .trust-item { padding: 40px 0; }
   .trust-item + .trust-item { border-top: 1px solid rgba(255,255,255,.18); }
@@ -391,6 +430,7 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
   .trust-item h3 { max-width: none; }
 }
 @media (max-width: 720px) {
+  .blog-track { --n: 1.25; --gaps: 1; --gap: 20px; }
   body { font-size: 16px; padding-bottom: 74px; }
   .topbar-left { width: 100%; justify-content: space-between; }
   .topbar-hours { display: none; }
@@ -429,6 +469,7 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
   .hero-wire .wire { animation: none; stroke-dashoffset: 0; }
   .hero-wire .plug { animation: none; opacity: 1; }
   .hero-wire .pulse { animation: none; }
+  .blog-track { scroll-behavior: auto; }
 }
 
 </style>
@@ -474,12 +515,13 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
               <li><a href="https://www.termopasta.lt/apple-kompiuteriu-remontas/">Apple remontas</a></li>
             </ul>
           </li>
+          <li><a href="/remonto-sekimas/">Remonto sekimas</a></li>
           <li><a href="https://www.termopasta.lt/patarimai/">Patarimai</a></li>
           <li><a href="https://www.termopasta.lt/kontaktai/">Kontaktai</a></li>
         </ul>
       </nav>
       <div class="nav-contact">
-        <a class="btn btn-primary btn-nav" href="https://www.termopasta.lt/kontaktai/">Susisiekti</a>
+        <a class="btn btn-primary btn-nav" href="/rezervacija/">Rezervacija</a>
       </div>
     </div>
   </div>
@@ -559,7 +601,7 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
 
 <section class="works">
   <div class="container">
-    <h2>Dažniausiai atliekami kompiuterių remonto darbai</h2>
+    <h2>Kompiuterių remonto kainos</h2>
 
     <div class="price-list">
       <div class="price-head"><span>Paslauga</span><span>Kaina, €</span></div>
@@ -573,8 +615,11 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
       <div class="price-row"><span class="price-name">Lizdo remontas</span><span class="price-dots"></span><span class="price-val">57.00 - 86.00€</span></div>
       <div class="price-row"><span class="price-name">Vyrių remontas</span><span class="price-dots"></span><span class="price-val">57.00 - 86.00€</span></div>
     </div>
-    <p class="price-more">Visą kompiuterio remonto darbų kainininką rasite <a href="/remonto-kainos/">čia</a></p>
+    <div class="price-more">
+      <a class="btn btn-accent" href="/remonto-kainos/">Visos kainos</a>
+    </div>
 
+    <h2 class="svc-title">Dažniausiai atliekami kompiuterių remonto darbai</h2>
     <div class="svc-grid">
       <article class="svc">
         <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1"/><rect x="10.2" y="10.2" width="3.6" height="3.6"/><path d="M10 7V4M14 7V4M10 20v-3M14 20v-3M7 10H4M7 14H4M20 10h-3M20 14h-3"/></svg></span>
@@ -670,8 +715,15 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
 
 <section class="blog">
   <div class="container">
-    <h3>Mūsų patarimai Jums</h3>
-    <div class="blog-grid">
+    <div class="blog-head">
+      <h3>Mūsų patarimai Jums</h3>
+      <div class="blog-nav">
+        <a class="btn btn-ghost" href="https://www.termopasta.lt/patarimai/">Visi patarimai</a>
+        <button type="button" class="prev" aria-label="Ankstesni patarimai"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6m5-5l-5 5 5 5"/></svg></button>
+        <button type="button" class="next" aria-label="Kiti patarimai"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-5l5 5-5 5"/></svg></button>
+      </div>
+    </div>
+    <div class="blog-track">
       <article class="post">
         <a class="post-img" href="https://www.termopasta.lt/kompiuterio-ekrano-remontas-viskas-ka-turite-zinoti/"><img src="img/Dizainas-be-pavadinimo-12-600x400.png" alt=""></a>
         <div class="post-body">
@@ -696,7 +748,56 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
           <p>Kas yra Adblock Plus? Adblock Plus yra vienas iš populiariausių naršyklių plėtinių, skirtų populiariausioms naršyklėms ...</p>
         </div>
       </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/kaip-neleisti-windows-10-siustis-atnaujinimu-automatiskai/"><img src="img/patarimai-auto-atnaujinimu-isjungimas-768x432.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>5 Rgp</span>
+          <h4><a href="https://www.termopasta.lt/kaip-neleisti-windows-10-siustis-atnaujinimu-automatiskai/">Kaip neleisti Windows 10 siųstis atnaujinimų automatiškai</a></h4>
+          <p>Kompiuteriai su Windows 10 operacine sistema automatiškai tikrina, ar nėra atnaujinimų ir instaliuoja bet kuriuos ...</p>
+        </div>
+      </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/kaip-sumazinti-asmeniniu-kompiuteriu-elektros-energijos-sunaudojima/"><img src="img/patarimai-kaip-sumazinti-elektro-sanaudas-naudojant-ak-768x432.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>5 Rgp</span>
+          <h4><a href="https://www.termopasta.lt/kaip-sumazinti-asmeniniu-kompiuteriu-elektros-energijos-sunaudojima/">Kaip sumažinti asmeninių kompiuterių elektros energijos sunaudojimą</a></h4>
+          <p>Asmeniniai kompiuteriai neturėtų būti elektros rijikai, tačiau jie dažniausiai būtent tokie ir yra. Aukštos ...</p>
+        </div>
+      </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/kodel-dabar-geriausias-laikas-atnaujinti-kietaji-diska-i-ssd/"><img src="img/patarimai-laikas-atsinaujinti-i-ssd-768x432.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>5 Rgp</span>
+          <h4><a href="https://www.termopasta.lt/kodel-dabar-geriausias-laikas-atnaujinti-kietaji-diska-i-ssd/">Kodėl dabar geriausias laikas atnaujinti kietąjį diską į SSD</a></h4>
+          <p>Laikas pasikeisti kietąjį diską į SSD, jei vis dar naudojate mechaninį diską savo kompiuteryje. Dabar tai vienas ...</p>
+        </div>
+      </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/nesiojamo-kompiuterio-su-windows-operacine-sistema-baterijos-veikimo-prailginimas/"><img src="img/patarimai-kaip-prailginti-baterijos-gyvavima-768x432.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>5 Rgp</span>
+          <h4><a href="https://www.termopasta.lt/nesiojamo-kompiuterio-su-windows-operacine-sistema-baterijos-veikimo-prailginimas/">Nešiojamo kompiuterio su Windows operacine sistema baterijos veikimo prailginimas</a></h4>
+          <p>Dažnai linksniuojame savo išmaniųjų telefonų baterijos veikimo laiką, tačiau neprisimename, kad dauguma nešiojamų ...</p>
+        </div>
+      </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/kaip-atstatyti-arba-isdiegti-problemiskus-windows-atnaujinimus/"><img src="img/patarimai-kaip-atstatytis-windows-atnaujinimus-768x432.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>5 Rgp</span>
+          <h4><a href="https://www.termopasta.lt/kaip-atstatyti-arba-isdiegti-problemiskus-windows-atnaujinimus/">Kaip atstatyti arba išdiegti problemiškus Windows atnaujinimus</a></h4>
+          <p>Windows Update atnaujinimai yra įdiegiami automatiškai. Taip ir turėtų būti, tačiau visai neseniai Windows išleido ...</p>
+        </div>
+      </article>
+      <article class="post">
+        <a class="post-img" href="https://www.termopasta.lt/kaip-paleisti-saugiu-rezimu-safe-mode-windows-8-arba-10/"><img src="img/patarimai-safe-mode-768x432.jpg" alt=""></a>
+        <div class="post-body">
+          <span class="post-date"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v3.5M15.5 3.5v3.5"/></svg>5 Rgp</span>
+          <h4><a href="https://www.termopasta.lt/kaip-paleisti-saugiu-rezimu-safe-mode-windows-8-arba-10/">Kaip paleisti „saugiu režimu“ (Safe Mode) Windows 8 arba 10</a></h4>
+          <p>Vienas iš dažniausiai pasitaikančių būdų sutaisyti kompiuterį – paleisti jį saugiu režimu (Safe Mode). Ilgą laiką ...</p>
+        </div>
+      </article>
     </div>
+    <div class="blog-progress" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
@@ -761,6 +862,7 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
 <div class="ver-switch" role="group" aria-label="Versijos">
   <div class="ver-row"><span>Laidas</span><button type="button" data-set="wire" data-val="v1">v1</button><button type="button" data-set="wire" data-val="v2">v2</button></div>
   <div class="ver-row"><span>Foto</span><button type="button" data-set="photos" data-val="v1">v1</button><button type="button" data-set="photos" data-val="v2">v2</button></div>
+  <div class="ver-row"><span>CTA</span><button type="button" data-set="cta" data-val="v1">v1</button><button type="button" data-set="cta" data-val="v2">v2</button></div>
 </div>
 
 <script>
@@ -800,7 +902,65 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
   else window.addEventListener('resize', layout);
 })();
 
-/* Version switcher. State lives in the URL hash: #wire=v1|v2&photos=v1|v2 */
+/* Blog slider: arrows, disabled states, progress line. */
+(function () {
+  var track = document.querySelector('.blog-track');
+  if (!track) return;
+  var prev = document.querySelector('.blog-nav .prev');
+  var next = document.querySelector('.blog-nav .next');
+  var bar = document.querySelector('.blog-progress i');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function step() {
+    var card = track.querySelector('.post');
+    var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return card ? card.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
+  }
+  function update() {
+    var max = track.scrollWidth - track.clientWidth;
+    prev.disabled = track.scrollLeft <= 1;
+    next.disabled = track.scrollLeft >= max - 1;
+    if (bar) {
+      bar.style.width = (track.clientWidth / track.scrollWidth * 100) + '%';
+      bar.style.marginLeft = (track.scrollLeft / track.scrollWidth * 100) + '%';
+    }
+  }
+  function go(dir) { track.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' }); }
+  prev.addEventListener('click', function () { go(-1); });
+  next.addEventListener('click', function () { go(1); });
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+
+  // Drag to scroll with a mouse. Touch keeps native scrolling.
+  var drag = null, dragged = false;
+  track.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    drag = { x: e.clientX, left: track.scrollLeft };
+    dragged = false;
+    track.classList.add('is-dragging');
+    track.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  track.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var dx = e.clientX - drag.x;
+    if (Math.abs(dx) > 5) dragged = true;
+    track.scrollLeft = drag.left - dx;
+  });
+  function endDrag() {
+    if (!drag) return;
+    drag = null;
+    track.classList.remove('is-dragging');
+  }
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+  // A drag must not open the card link on release.
+  track.addEventListener('click', function (e) {
+    if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; }
+  }, true);
+})();
+
+/* Version switcher. State lives in the URL hash: #wire=v1|v2&photos=v1|v2&cta=v1|v2 */
 (function () {
   var sw = document.querySelector('.ver-switch');
   var photo = document.querySelector('.hero-photo');
@@ -808,13 +968,14 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
   if (!sw || !photo || !small) return;
   var srcs = { v1: [photo.getAttribute('src'), small.getAttribute('src')] };
   srcs.v2 = [srcs.v1[1], srcs.v1[0]];
-  var state = { wire: 'v1', photos: 'v1' };
+  var state = { wire: 'v1', photos: 'v1', cta: 'v1' };
   location.hash.replace(/^#/, '').split('&').forEach(function (kv) {
     var p = kv.split('=');
     if (state.hasOwnProperty(p[0]) && /^v[12]$/.test(p[1])) state[p[0]] = p[1];
   });
   function apply(writeHash) {
     document.body.setAttribute('data-wire', state.wire);
+    document.body.setAttribute('data-cta', state.cta);
     photo.setAttribute('src', srcs[state.photos][0]);
     small.setAttribute('src', srcs[state.photos][1]);
     var btns = sw.querySelectorAll('button');
@@ -824,7 +985,7 @@ body[data-wire="v2"] .hero-cable .plug, body[data-wire="v2"] .hero-cable .pulse 
       btns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
     }
     if (writeHash) {
-      var h = '#wire=' + state.wire + '&photos=' + state.photos;
+      var h = '#wire=' + state.wire + '&photos=' + state.photos + '&cta=' + state.cta;
       try { history.replaceState(null, '', h); } catch (e) { location.hash = h; }
     }
   }
